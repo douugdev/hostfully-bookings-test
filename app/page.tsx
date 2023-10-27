@@ -1,95 +1,53 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+
+import BookingCard from "@/components/BookingCard";
+import styles from "./page.module.scss";
+import { useBooking } from "@/contexts/bookings";
+import AddBookingCard from "@/components/AddBookingCard";
+import { isBookingAlreadyExistsError } from "@/contexts/errors";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const { bookings, editBooking, createNewBooking, deleteBooking } = useBooking();
+  const [currentError, setCurrentError] = useState<string>();
+
+  useEffect(() => {
+    if (currentError) {
+      setTimeout(() => {
+        setCurrentError(undefined);
+      }, 2500);
+    }
+  }, [currentError]);
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
+      <h1 className={styles.heading}>Bookings &nbsp;&nbsp; ━━━━━━━</h1>
+      {currentError && <li className={styles.error}>{currentError}</li>}
+      <div className={styles.cardList}>
+        {bookings.map((booking, index) => {
+          return (
+            <BookingCard
+              key={"title" + index}
+              title={booking.title}
+              start={booking.start}
+              end={booking.end}
+              onEdit={(title, start, end) => {
+                try {
+                  editBooking(index, { title, start, end });
+                  return true;
+                } catch (e) {
+                  if (isBookingAlreadyExistsError(e)) {
+                    setCurrentError("This booking date was already taken.");
+                  }
+                  return false;
+                }
+              }}
+              onDelete={() => deleteBooking(index)}
             />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+          );
+        })}
+        <AddBookingCard onAdd={() => createNewBooking()} />
       </div>
     </main>
-  )
+  );
 }

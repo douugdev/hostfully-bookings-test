@@ -1,0 +1,35 @@
+.cardContainer {
+  position: relative;
+  overflow: hidden;
+  width: 14rem;
+  min-width: 10rem;
+  height: 8rem;
+  background: rgb(30, 75, 129);
+  background: linear-gradient(45deg, rgba(30, 75, 129, 1) 25%, rgba(244, 0, 255, 1) 100%);
+  border-radius: 2rem;
+  color: white;
+  padding: 2rem;
+  transition: 0.2s;
+  font-family: "Red Hat Display";
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 1rem;
+
+  .cardButton {
+    position: absolute;
+    display: flex;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    .cardButtonText {
+      font-weight: bold;
+      font-size: 20pt;
+    }
+  }
+}

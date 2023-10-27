@@ -1,0 +1,89 @@
+.cardContainer {
+  position: relative;
+  overflow: hidden;
+  width: 14rem;
+  height: 8rem;
+  background: rgb(30, 75, 129);
+  background: linear-gradient(45deg, rgba(30, 75, 129, 1) 25%, rgba(244, 0, 255, 1) 100%);
+  border-radius: 2rem;
+  color: white;
+  padding: 2rem;
+  transition: 0.2s;
+  font-family: "Red Hat Display";
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 1rem;
+
+  .cardButton {
+    position: absolute;
+    display: flex;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    backdrop-filter: blur(2px);
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    .cardButtonText {
+      font-weight: bold;
+      font-size: 20pt;
+    }
+  }
+
+  .title {
+    margin: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .datesContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  textarea:focus,
+  input:focus,
+  input,
+  button {
+    outline: none;
+    border: none;
+    font-family: "Red Hat Display";
+  }
+
+  input {
+    width: auto;
+    padding: 0.25rem;
+    margin: 0.1rem;
+    border-radius: 0.3rem;
+    background-color: rgba(37, 14, 46, 0.343);
+    color: white;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    button {
+      &:last-child {
+        margin-left: 1rem;
+      }
+
+      &:disabled {
+        background-color: lightgray;
+        color: gray;
+        cursor: not-allowed;
+      }
+      cursor: pointer;
+      border-radius: 0.3rem;
+      background-color: white;
+      color: black;
+      padding: 0.25rem;
+      font-family: "Red Hat Display";
+      flex: 1;
+    }
+  }
+}
